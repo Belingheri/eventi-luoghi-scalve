@@ -80,7 +80,7 @@ export default function HomeView({ setCurrentView, setSelectedMunicipalityFilter
                 type="submit"
                 className="absolute right-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm shadow-md transition-all touch-target flex items-center gap-1"
               >
-                <span>Cerca</span>
+                <span>{t('btn_search')}</span>
               </button>
             </div>
           </form>
@@ -110,8 +110,8 @@ export default function HomeView({ setCurrentView, setSelectedMunicipalityFilter
       {/* MUNICIPALITIES QUICK GRID */}
       <section className="space-y-6">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">I 4 Comuni della Valle</h2>
-          <p className="text-slate-400 text-sm">Clicca su un comune per scoprire tutti i suoi punti d'interesse</p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">{t('muni_section_title')}</h2>
+          <p className="text-slate-400 text-sm">{t('muni_section_sub')}</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

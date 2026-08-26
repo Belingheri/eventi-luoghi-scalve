@@ -47,6 +47,28 @@ const UI_TRANSLATIONS = {
   footer_tagline: { it: 'Il portale turistico open della Val di Scalve: Schilpario, Vilminore, Colere, Azzone.', en: 'The open tourism portal of Scalve Valley: Schilpario, Vilminore, Colere, Azzone.', de: 'Das offene Tourismusportal des Scalvetals: Schilpario, Vilminore, Colere, Azzone.', fr: 'Le portail touristique de la Val di Scalve: Schilpario, Vilminore, Colere, Azzone.', es: 'El portal turístico del Valle di Scalve: Schilpario, Vilminore, Colere, Azzone.' },
   footer_hosting_note: { it: 'Realizzato con architettura 100% a costo zero di hosting.', en: 'Built with 100% zero-cost hosting architecture.', de: 'Entwickelt mit 100% kostenfreier Hosting-Architektur.', fr: 'Conçu avec une architecture d\'hébergement 100% sans frais.', es: 'Diseñado con arquitectura de alojamiento 100% gratuita.' },
 
+  // General & Buttons
+  btn_search: { it: 'Cerca', en: 'Search', de: 'Suchen', fr: 'Rechercher', es: 'Buscar' },
+  btn_reset_filters: { it: 'Azzera Filtri', en: 'Reset Filters', de: 'Filter Zurücksetzen', fr: 'Réinitialiser i filtri', es: 'Restablecer Filtros' },
+  muni_section_title: { it: 'I 4 Comuni della Valle', en: 'The 4 Municipalities of the Valley', de: 'Die 4 Gemeinden des Tals', fr: 'Les 4 communes de la vallée', es: 'Los 4 municipios del valle' },
+  muni_section_sub: { it: 'Clicca su un comune per scoprire tutti i suoi punti d\'interesse', en: 'Click on a municipality to discover all its points of interest', de: 'Klicken Sie auf eine Gemeinde, um alle Sehenswürdigkeiten zu entdecken', fr: 'Cliquez sur une commune pour découvrir tous ses points d\'intérêt', es: 'Haz clic en un municipio para descubrir todos sus puntos de interés' },
+
+  // Places Page
+  places_title: { it: 'Catalogo Luoghi e Punti d\'Interesse', en: 'Places & Points of Interest Catalog', de: 'Katalog der Orte & Sehenswürdigkeiten', fr: 'Catalogue des Lieux & Points d\'Intérêt', es: 'Catálogo de Lugares y Puntos de Interés' },
+  places_subtitle: { it: 'Esplora la natura, le montagne, la storia mineraria ed i borghi caratteristici della Val di Scalve.', en: 'Explore nature, mountains, mining history and charming villages of Scalve Valley.', de: 'Entdecken Sie Natur, Berge, Bergbaugeschichte und malerische Dörfer des Scalvetals.', fr: 'Explorez la nature, les montagnes, l\'histoire minière et les villages de la Val di Scalve.', es: 'Explora la naturaleza, montañas, historia minera y pueblos del Valle di Scalve.' },
+  places_search_ph: { it: 'Cerca luogo per nome o descrizione...', en: 'Search place by name or description...', de: 'Ort nach Name oder Beschreibung suchen...', fr: 'Rechercher un lieu par nom ou description...', es: 'Buscar lugar por nombre o descripción...' },
+  found_places: { it: 'Trovati:', en: 'Found:', de: 'Gefunden:', fr: 'Trouvés:', es: 'Encontrados:' },
+  places_unit: { it: 'luoghi', en: 'places', de: 'Orte', fr: 'lieux', es: 'lugares' },
+
+  // Events Page
+  events_title: { it: 'Calendario Eventi & Manifestazioni', en: 'Events & Festivals Calendar', de: 'Veranstaltungskalender', fr: 'Calendrier des Événements', es: 'Calendario de Eventos y Fiestas' },
+  events_subtitle: { it: 'Rimani sempre aggiornato sulle sagre paesane, le gare sportive, i concerti e le manifestazioni culturali.', en: 'Stay updated on local festivals, sports races, concerts and cultural events.', de: 'Bleiben Sie über lokale Feste, Sportrennen, Konzerte und Kulturveranstaltungen informiert.', fr: 'Restez informé des fêtes locales, courses sportives, concerts et événements culturels.', es: 'Mantente al día sobre fiestas locales, carreras deportivas, conciertos y eventos culturales.' },
+  events_search_ph: { it: 'Cerca evento per titolo o parola chiave...', en: 'Search event by title or keyword...', de: 'Event nach Titel oder Stichwort suchen...', fr: 'Rechercher par titre ou mot-clé...', es: 'Buscar evento por título o palabra clave...' },
+  upcoming_events_title: { it: 'Prossimi Eventi', en: 'Upcoming Events', de: 'Kommende Events', fr: 'Événements à Venir', es: 'Próximos Eventos' },
+  archived_events_title: { it: 'Archivio Eventi Passati', en: 'Past Events Archive', de: 'Archiv vergangener Events', fr: 'Archive des Événements Passés', es: 'Archivo de Eventos Pasados' },
+  no_upcoming_events: { it: 'Nessun evento in programma trovato per i criteri selezionati.', en: 'No upcoming events found for the selected criteria.', de: 'Keine kommenden Veranstaltungen für die Kriterien gefunden.', fr: 'Aucun événement à venir trouvé per i criteri selezionati.', es: 'No se encontraron próximos eventos para los criterios seleccionados.' },
+  no_past_events: { it: 'Nessun evento passato presente nell\'archivio.', en: 'No past events found in the archive.', de: 'Keine vergangenen Events im Archiv vorhanden.', fr: 'Aucun événement passé trouvé dans l\'archive.', es: 'No hay eventos pasados en el archivo.' },
+
   // Admin Panel
   admin_title: { it: 'Pannello di Controllo Amministratore', en: 'Admin Control Panel', de: 'Admin-Kontrollzentrum', fr: 'Panneau d\'Administration', es: 'Panel de Control Administrador' },
   admin_login_sub: { it: 'Inserisci la password per gestire luoghi ed eventi.', en: 'Enter password to manage places and events.', de: 'Passwort eingeben, um Orte und Events zu verwalten.', fr: 'Entrez le mot de passe pour gérer les lieux et événements.', es: 'Ingresa la contraseña para gestionar lugares y eventos.' },

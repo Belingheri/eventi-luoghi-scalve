@@ -42,10 +42,10 @@ export default function PlacesView({ initialMunicipality = 'all' }) {
       <div className="space-y-3 border-b border-slate-800 pb-6">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-white flex items-center gap-3">
           <Compass className="w-8 h-8 text-emerald-400" />
-          <span>Catalogo Luoghi e Punti d'Interesse</span>
+          <span>{t('places_title')}</span>
         </h1>
         <p className="text-slate-400 text-base max-w-3xl">
-          Esplora la natura, le montagne, la storia mineraria ed i borghi caratteristici della Val di Scalve. Utilizza i filtri per categoria e comune per trovare la tua prossima meta.
+          {t('places_subtitle')}
         </p>
       </div>
 
@@ -60,15 +60,15 @@ export default function PlacesView({ initialMunicipality = 'all' }) {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cerca luogo per nome o descrizione..."
+              placeholder={t('places_search_ph')}
               className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-900/90 text-white placeholder-slate-400 border border-slate-700/80 focus:outline-none focus:border-emerald-500 text-sm shadow-inner"
             />
           </div>
 
           <div className="text-xs font-semibold text-slate-400 bg-slate-900/60 px-4 py-3 rounded-2xl border border-slate-800 self-start md:self-auto flex items-center gap-2">
-            <span>Trovati:</span>
+            <span>{t('found_places')}</span>
             <strong className="text-emerald-400 text-sm">{filteredPlaces.length}</strong>
-            <span>luoghi</span>
+            <span>{t('places_unit')}</span>
           </div>
         </div>
 
@@ -147,7 +147,7 @@ export default function PlacesView({ initialMunicipality = 'all' }) {
             onClick={() => { setSelectedCategory('all'); setSelectedMunicipality('all'); setSearchQuery(''); }}
             className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 text-xs font-bold transition-colors"
           >
-            Azzera Filtri
+            {t('btn_reset_filters')}
           </button>
         </div>
       )}

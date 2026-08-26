@@ -50,10 +50,10 @@ export default function EventsView() {
       <div className="space-y-3 border-b border-slate-800 pb-6">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-white flex items-center gap-3">
           <Calendar className="w-8 h-8 text-emerald-400" />
-          <span>Calendario Eventi & Manifestazioni</span>
+          <span>{t('events_title')}</span>
         </h1>
         <p className="text-slate-400 text-base max-w-3xl">
-          Rimani sempre aggiornato sulle sagre paesane, le gare sportive, i concerti e le manifestazioni culturali organizzate nei 4 comuni della Val di Scalve.
+          {t('events_subtitle')}
         </p>
       </div>
 
@@ -67,7 +67,7 @@ export default function EventsView() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cerca evento per titolo o parola chiave..."
+              placeholder={t('events_search_ph')}
               className="w-full pl-12 pr-4 py-3 rounded-2xl bg-slate-900/90 text-white placeholder-slate-400 border border-slate-700/80 focus:outline-none focus:border-emerald-500 text-sm shadow-inner"
             />
           </div>
@@ -119,7 +119,7 @@ export default function EventsView() {
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-lg font-bold text-white">
           <Sparkles className="w-5 h-5 text-emerald-400" />
-          <h2>Prossimi Eventi ({filteredUpcoming.length})</h2>
+          <h2>{t('upcoming_events_title')} ({filteredUpcoming.length})</h2>
         </div>
 
         {filteredUpcoming.length > 0 ? (
@@ -135,7 +135,7 @@ export default function EventsView() {
           </div>
         ) : (
           <div className="p-10 text-center glass-panel rounded-3xl text-slate-400 border border-slate-800">
-            Nessun evento in programma trovato per i criteri selezionati.
+            {t('no_upcoming_events')}
           </div>
         )}
       </div>
@@ -145,7 +145,7 @@ export default function EventsView() {
         <div className="space-y-4 pt-8 border-t border-slate-800/80">
           <div className="flex items-center gap-2 text-lg font-bold text-amber-300">
             <Archive className="w-5 h-5 text-amber-400" />
-            <h2>Archivio Eventi Passati ({filteredPast.length})</h2>
+            <h2>{t('archived_events_title')} ({filteredPast.length})</h2>
           </div>
 
           {filteredPast.length > 0 ? (
@@ -161,7 +161,7 @@ export default function EventsView() {
             </div>
           ) : (
             <div className="p-8 text-center glass-panel rounded-3xl text-slate-400 border border-slate-800">
-              Nessun evento passato presente nell'archivio.
+              {t('no_past_events')}
             </div>
           )}
         </div>
