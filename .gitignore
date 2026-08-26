@@ -4,11 +4,11 @@ dist
 dist-ssr
 *.local
 
-# Environment variables
+# Environment variables & SQL Seeds
 .env
 .env.local
 .env.*.local
-*.sql
+SUPABASE_SEED.sql
 
 # Logs
 npm-debug.log*
