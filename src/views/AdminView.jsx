@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
 import { CATEGORIES, MUNICIPALITIES } from '../data/initialData';
-import { Lock, LogOut, Plus, Edit2, Trash2, MapPin, Calendar, Globe2, Save, X, RefreshCw, CheckCircle, ShieldAlert, Copy } from 'lucide-react';
+import { Lock, LogOut, Plus, Edit2, Trash2, MapPin, Calendar, Globe2, Save, X, RefreshCw, CheckCircle, ShieldAlert, Copy, Upload, Image as ImageIcon } from 'lucide-react';
 
 export default function AdminView() {
   const { t, LANGUAGES, getLocalized } = useLanguage();
@@ -10,6 +10,23 @@ export default function AdminView() {
     places, events, addPlace, updatePlace, deletePlace, 
     addEvent, updateEvent, deleteEvent, resetToInitialData, isCloudConnected 
   } = useData();
+
+  // Helper for uploading file image from device
+  const handleImageFileUpload = (e, setFormState) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('L\'immagine selezionata supera i 5MB. Seleziona un file più leggero.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (uploadEvent) => {
+        const dataUrl = uploadEvent.target?.result;
+        setFormState(prev => ({ ...prev, image: dataUrl }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // Auth State
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -447,15 +464,45 @@ export default function AdminView() {
                   </select>
                 </div>
 
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase text-slate-400 mb-1">URL Immagine di Copertina</label>
+                <div className="sm:col-span-2 space-y-2">
+                  <label className="block text-xs font-bold uppercase text-slate-400">Immagine di Copertina</label>
+                  
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <label className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-md touch-target">
+                      <Upload className="w-4 h-4" />
+                      <span>📷 Carica Foto da Dispositivo</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleImageFileUpload(e, setPlaceForm)}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <span className="text-xs text-slate-400 font-medium">oppure inserisci un URL web:</span>
+                  </div>
+
                   <input
-                    type="url"
+                    type="text"
                     value={placeForm.image}
                     onChange={(e) => setPlaceForm({ ...placeForm, image: e.target.value })}
-                    placeholder="https://images.unsplash.com/..."
+                    placeholder="https://images.unsplash.com/... oppure caricata da file"
                     className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
                   />
+
+                  {placeForm.image && (
+                    <div className="relative aspect-[16/9] max-h-40 rounded-xl overflow-hidden bg-slate-900 border border-slate-700 mt-2 flex items-center justify-center">
+                      <img src={placeForm.image} alt="Anteprima" className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setPlaceForm({ ...placeForm, image: '' })}
+                        className="absolute top-2 right-2 p-1.5 rounded-lg bg-red-950/80 text-red-300 hover:text-white border border-red-800 text-xs font-bold flex items-center gap-1"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        <span>Rimuovi</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -669,15 +716,45 @@ export default function AdminView() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold uppercase text-slate-400 mb-1">URL Locandina / Immagine</label>
+                <div className="sm:col-span-2 space-y-2">
+                  <label className="block text-xs font-bold uppercase text-slate-400">Locandina / Immagine Evento</label>
+                  
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <label className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-md touch-target">
+                      <Upload className="w-4 h-4" />
+                      <span>📷 Carica Locandina da Dispositivo</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleImageFileUpload(e, setEventForm)}
+                        className="hidden"
+                      />
+                    </label>
+
+                    <span className="text-xs text-slate-400 font-medium">oppure inserisci un URL web:</span>
+                  </div>
+
                   <input
-                    type="url"
+                    type="text"
                     value={eventForm.image}
                     onChange={(e) => setEventForm({ ...eventForm, image: e.target.value })}
-                    placeholder="https://images.unsplash.com/..."
+                    placeholder="https://images.unsplash.com/... oppure caricata da file"
                     className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
                   />
+
+                  {eventForm.image && (
+                    <div className="relative aspect-[16/9] max-h-40 rounded-xl overflow-hidden bg-slate-900 border border-slate-700 mt-2 flex items-center justify-center">
+                      <img src={eventForm.image} alt="Anteprima Locandina" className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setEventForm({ ...eventForm, image: '' })}
+                        className="absolute top-2 right-2 p-1.5 rounded-lg bg-red-950/80 text-red-300 hover:text-white border border-red-800 text-xs font-bold flex items-center gap-1"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        <span>Rimuovi</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
