@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MUNICIPALITIES } from '../data/initialData';
+import { formatFullItalianDate } from '../utils/dateUtils';
 import { X, Calendar, Clock, MapPin, UserCheck, Globe2, Share2, ExternalLink } from 'lucide-react';
 
 export default function EventDetailModal({ event, onClose, isPast }) {
-  const { getLocalized, isFallbackUsed, t, lang } = useLanguage();
+  const { getLocalized, isFallbackUsed, t } = useLanguage();
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -24,12 +25,7 @@ export default function EventDetailModal({ event, onClose, isPast }) {
   const municipalityObj = MUNICIPALITIES.find(m => m.id === event.municipality);
   const municipalityName = municipalityObj ? getLocalized(municipalityObj, 'name') : (event.municipality || 'Val di Scalve');
 
-  const formattedDate = new Date(event.date).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  const formattedDate = formatFullItalianDate(event.date);
 
   const handleAddToCalendar = () => {
     const startTime = (event.time || '10:00').replace(':', '') + '00';

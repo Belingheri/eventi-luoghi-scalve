@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
 import { CATEGORIES, MUNICIPALITIES } from '../data/initialData';
+import { formatEuropeanDate } from '../utils/dateUtils';
 import { Lock, LogOut, Plus, Edit2, Trash2, MapPin, Calendar, Globe2, Save, X, RefreshCw, CheckCircle, ShieldAlert, Copy, Upload, Image as ImageIcon, ExternalLink } from 'lucide-react';
 
 export default function AdminView() {
@@ -444,7 +445,7 @@ export default function AdminView() {
                         {isPast && <span className="px-2 py-0.5 rounded bg-red-950 text-red-300 text-[10px] font-bold">PASSATO</span>}
                       </div>
                       <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
-                        <span className="text-emerald-400 font-semibold">{event.date} ({event.time})</span>
+                        <span className="text-emerald-400 font-semibold">{formatEuropeanDate(event.date)} ({event.time || '18:00'})</span>
                         <span>•</span>
                         <span>{event.location}</span>
                       </div>
@@ -745,7 +746,7 @@ export default function AdminView() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase text-slate-400 mb-1">Data Evento (YYYY-MM-DD)</label>
+                  <label className="block text-xs font-bold uppercase text-slate-400 mb-1">Data Evento (Giorno / Mese / Anno)</label>
                   <input
                     type="date"
                     value={eventForm.date}

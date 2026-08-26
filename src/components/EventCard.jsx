@@ -1,10 +1,11 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MUNICIPALITIES } from '../data/initialData';
+import { getItalianDateParts } from '../utils/dateUtils';
 import { Calendar, Clock, MapPin, Info, Globe2, AlertCircle, ExternalLink } from 'lucide-react';
 
 export default function EventCard({ event, onSelect, isPast }) {
-  const { getLocalized, isFallbackUsed, t, lang } = useLanguage();
+  const { getLocalized, isFallbackUsed, t } = useLanguage();
 
   const title = getLocalized(event, 'title');
   const description = getLocalized(event, 'description');
@@ -14,10 +15,8 @@ export default function EventCard({ event, onSelect, isPast }) {
   const municipalityObj = MUNICIPALITIES.find(m => m.id === event.municipality);
   const municipalityName = municipalityObj ? getLocalized(municipalityObj, 'name') : (event.municipality || 'Val di Scalve');
 
-  // Format Date (YYYY-MM-DD) into Day and Month
-  const dateObj = new Date(event.date);
-  const dayNum = dateObj.getDate() || '12';
-  const monthName = dateObj.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { month: 'short' }).toUpperCase();
+  // Format Date into Day (DD) and Month (MMM) in Italian
+  const { day: dayNum, monthShort: monthName } = getItalianDateParts(event.date);
 
   const handleExternalLink = (e) => {
     e.stopPropagation();
