@@ -95,20 +95,31 @@ Il sito funziona già al 100% salvando le modifiche fatte dall'Admin nel browser
      description jsonb
    );
 
-   -- Abilita l'accesso in lettura/scrittura pubblica per la demo/admin
+   -- Abilita la Row Level Security (RLS)
    alter table places enable row level security;
    alter table events enable row level security;
 
-   create policy "Accesso pubblico luoghi" on places for all using (true);
-   create policy "Accesso pubblico eventi" on events for all using (true);
+   -- Permetti la Lettura Pubblica a tutti i visitatori (Turisti)
+   create policy "Lettura pubblica luoghi" on places for select using (true);
+   create policy "Lettura pubblica eventi" on events for select using (true);
+
+   -- Permetti Inserimento, Modifica ed Eliminazione solo agli Amministratori Autenticati LATO BACKEND
+   create policy "Modifica solo admin autenticati luoghi" on places for all using (auth.role() = 'authenticated');
+   create policy "Modifica solo admin autenticati eventi" on events for all using (auth.role() = 'authenticated');
    ```
-4. Vai in **Project Settings** -> **API** e copia i due valori:
+
+4. **Creare l'Utente Amministratore nel Backend Supabase:**
+   * Nella Dashboard Supabase, vai nella scheda **Authentication** -> **Users** -> clicca su **"Add user"** -> **"Create user"**.
+   * Inserisci la tua Email Amministratore (es. `admin@valdiscalve.it`) e la tua Password Segreta.
+   * Da questo momento, solo chi conosce queste credenziali potrà autenticarsi tramite il backend di Supabase per modificare o eliminare eventi e luoghi!
+
+5. Vai in **Project Settings** -> **API** e copia i due valori:
    * `Project URL`
    * `API Key (anon/public)`
-5. Vai nella Dashboard di Vercel, entra nel tuo progetto `val-di-scalve-turismo` -> **Settings** -> **Environment Variables** ed inserisci:
+6. Vai nella Dashboard di Vercel, entra nel tuo progetto `val-di-scalve-turismo` -> **Settings** -> **Environment Variables** ed inserisci:
    * `VITE_SUPABASE_URL` = (il tuo Project URL)
    * `VITE_SUPABASE_ANON_KEY` = (la tua anon key)
-6. Fai il redeploy su Vercel o fai un nuovo commit: il sito passerà istantaneamente al database cloud!
+7. Fai il redeploy su Vercel o fai un nuovo commit: il sito passerà istantaneamente al database cloud protetto da validazione backend!
 
 ---
 

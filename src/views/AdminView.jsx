@@ -8,7 +8,8 @@ export default function AdminView() {
   const { t, LANGUAGES, getLocalized } = useLanguage();
   const { 
     places, events, addPlace, updatePlace, deletePlace, 
-    addEvent, updateEvent, deleteEvent, resetToInitialData, isCloudConnected 
+    addEvent, updateEvent, deleteEvent, resetToInitialData, isCloudConnected,
+    authUser, loginWithSupabase, logoutSupabase
   } = useData();
 
   // Helper for uploading file image from device
@@ -30,8 +31,52 @@ export default function AdminView() {
 
   // Auth State
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [authError, setAuthError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Check backend session state
+  const isUserLoggedIn = Boolean(authUser || isAuthenticated);
+
+  // Login handler
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setAuthError('');
+    setIsSubmitting(true);
+
+    if (isCloudConnected) {
+      // 100% BACKEND VALIDATION VIA SUPABASE AUTH SERVER
+      try {
+        await loginWithSupabase(emailInput.trim(), passwordInput.trim());
+        setIsAuthenticated(true);
+      } catch (err) {
+        console.error('Supabase Auth backend error:', err);
+        setAuthError(err.message || 'Credenziali non valide. Errore dal server di autenticazione Supabase.');
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      // Offline Local Fallback Check
+      const envPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+      const isValid = envPassword 
+        ? passwordInput.trim() === envPassword.trim()
+        : (passwordInput.trim() === 'scalve2026' || passwordInput.trim() === 'admin');
+
+      if (isValid) {
+        setIsAuthenticated(true);
+        setAuthError('');
+      } else {
+        setAuthError('Password non corretta. Verifica le credenziali di accesso.');
+      }
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    await logoutSupabase();
+    setIsAuthenticated(false);
+  };
 
   // Active Admin Tab ('places' | 'events')
   const [activeTab, setActiveTab] = useState('places');
@@ -77,22 +122,6 @@ export default function AdminView() {
     description: { it: '', en: '', de: '', fr: '', es: '' }
   };
   const [eventForm, setEventForm] = useState(emptyEventForm);
-
-  // Login handler
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const envPassword = import.meta.env.VITE_ADMIN_PASSWORD;
-    const isValid = envPassword 
-      ? passwordInput.trim() === envPassword.trim()
-      : (passwordInput.trim() === 'scalve2026' || passwordInput.trim() === 'admin');
-
-    if (isValid) {
-      setIsAuthenticated(true);
-      setAuthError('');
-    } else {
-      setAuthError('Password non corretta. Verifica le credenziali di accesso.');
-    }
-  };
 
   // Open Place Modal for Add
   const handleOpenAddPlace = () => {
@@ -212,7 +241,7 @@ export default function AdminView() {
   };
 
   // LOGIN FORM VIEW
-  if (!isAuthenticated) {
+  if (!isUserLoggedIn) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center p-4">
         <div className="w-full max-w-md glass-panel p-8 rounded-3xl border border-slate-700/80 shadow-2xl space-y-6 text-center">
@@ -222,10 +251,31 @@ export default function AdminView() {
 
           <div>
             <h2 className="text-2xl font-extrabold text-white">{t('admin_title')}</h2>
-            <p className="text-slate-400 text-xs mt-1">{t('admin_login_sub')}</p>
+            <p className="text-slate-400 text-xs mt-1">
+              {isCloudConnected 
+                ? 'Inserisci le credenziali Amministratore per la validazione LATO BACKEND (Supabase Auth)'
+                : t('admin_login_sub')}
+            </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4 text-left">
+            {isCloudConnected && (
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                  Email Amministratore (Supabase Auth)
+                </label>
+                <input
+                  type="email"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  placeholder="admin@valdiscalve.it"
+                  className="w-full px-4 py-3 rounded-2xl bg-slate-900 text-white border border-slate-700 focus:outline-none focus:border-amber-400 text-sm"
+                  required
+                  autoFocus
+                />
+              </div>
+            )}
+
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
                 {t('admin_pass_label')}
@@ -234,26 +284,33 @@ export default function AdminView() {
                 type="password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
-                placeholder="Password (default: scalve2026)"
+                placeholder="Password di accesso"
                 className="w-full px-4 py-3 rounded-2xl bg-slate-900 text-white border border-slate-700 focus:outline-none focus:border-amber-400 text-sm"
-                autoFocus
+                required
+                autoFocus={!isCloudConnected}
               />
             </div>
 
             {authError && (
-              <div className="p-3 rounded-xl bg-red-950/60 border border-red-800 text-red-300 text-xs flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 flex-shrink-0" />
+              <div className="p-3.5 rounded-xl bg-red-950/70 border border-red-800 text-red-300 text-xs flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 flex-shrink-0 text-red-400" />
                 <span>{authError}</span>
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-sm shadow-lg shadow-amber-900/30 transition-all touch-target"
+              disabled={isSubmitting}
+              className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-sm shadow-lg shadow-amber-900/30 transition-all touch-target disabled:opacity-50"
             >
-              {t('admin_login_btn')}
+              {isSubmitting ? 'Verifica credenziali sul Server...' : t('admin_login_btn')}
             </button>
           </form>
+
+          <div className="pt-2 border-t border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
+            <span className={`w-2 h-2 rounded-full ${isCloudConnected ? 'bg-emerald-400' : 'bg-blue-400'}`} />
+            <span>Validazione: <strong>{isCloudConnected ? 'Lato Backend (Server Supabase)' : 'Locale / .env'}</strong></span>
+          </div>
         </div>
       </div>
     );
@@ -274,7 +331,7 @@ export default function AdminView() {
           
           <div className="flex items-center gap-2 text-xs text-slate-400 mt-2">
             <span className={`w-2 h-2 rounded-full ${isCloudConnected ? 'bg-emerald-400' : 'bg-blue-400'}`} />
-            <span>Persistenza: <strong>{isCloudConnected ? 'Database Cloud Supabase' : 'LocalStorage In-Browser'}</strong></span>
+            <span>Autenticazione & Persistenza: <strong>{isCloudConnected ? `Backend Cloud Supabase (${authUser?.email || 'Autenticato'})` : 'LocalStorage In-Browser'}</strong></span>
           </div>
         </div>
 
@@ -289,7 +346,7 @@ export default function AdminView() {
           </button>
 
           <button
-            onClick={() => setIsAuthenticated(false)}
+            onClick={handleLogout}
             className="px-4 py-2 rounded-xl bg-red-950/60 hover:bg-red-900 text-red-300 text-xs font-bold border border-red-800/60 flex items-center gap-1.5 transition-colors touch-target"
           >
             <LogOut className="w-4 h-4" />

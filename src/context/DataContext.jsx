@@ -8,6 +8,25 @@ export function DataProvider({ children }) {
   const [places, setPlaces] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [authUser, setAuthUser] = useState(null);
+  const [authSession, setAuthSession] = useState(null);
+
+  // Restore Supabase Auth session & listen to state changes
+  useEffect(() => {
+    if (isSupabaseConfigured && supabase) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setAuthSession(session);
+        setAuthUser(session?.user ?? null);
+      });
+
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        setAuthSession(session);
+        setAuthUser(session?.user ?? null);
+      });
+
+      return () => subscription.unsubscribe();
+    }
+  }, []);
 
   // Load Initial Data (from Supabase if configured, or LocalStorage / Seed)
   useEffect(() => {
@@ -83,6 +102,27 @@ export function DataProvider({ children }) {
     .filter(e => e.date < todayStr)
     .sort((a, b) => b.date.localeCompare(a.date));
 
+  // Backend Supabase Auth Methods
+  const loginWithSupabase = async (email, password) => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Supabase non è ancora configurato in .env');
+    }
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  const logoutSupabase = async () => {
+    if (isSupabaseConfigured && supabase) {
+      await supabase.auth.signOut();
+    }
+    setAuthUser(null);
+    setAuthSession(null);
+  };
+
   // Places CRUD
   const addPlace = async (newPlace) => {
     const item = { ...newPlace, id: newPlace.id || `place-${Date.now()}` };
@@ -150,6 +190,10 @@ export function DataProvider({ children }) {
       upcomingEvents,
       pastEvents,
       loading,
+      authUser,
+      authSession,
+      loginWithSupabase,
+      logoutSupabase,
       addPlace,
       updatePlace,
       deletePlace,
