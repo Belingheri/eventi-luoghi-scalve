@@ -33,12 +33,12 @@ export default function Header({ currentView, setCurrentView }) {
                   className="h-8 w-auto object-contain"
                 />
               </div>
-              <div>
+              <div className="hidden sm:block">
                 <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent group-hover:text-emerald-400 transition-colors">
                   Val di Scalve
                 </span>
-                <span className="block text-[10px] uppercase font-bold tracking-widest text-emerald-400 -mt-1">
-                  Turismo & Eventi
+                <span className="block text-[10px] uppercase font-bold tracking-widest text-amber-400 -mt-1">
+                  Guida & Eventi (Non Ufficiale)
                 </span>
               </div>
             </div>
@@ -81,10 +81,10 @@ export default function Header({ currentView, setCurrentView }) {
 
               <LanguageSelector />
 
-              {/* Privacy & Legal Notice Button */}
+              {/* Privacy & Legal Notice Button (Desktop/Tablet) */}
               <button
                 onClick={() => setPrivacyModalOpen(true)}
-                className="p-2 rounded-xl text-slate-400 hover:text-emerald-400 hover:bg-slate-900 transition-colors"
+                className="hidden sm:flex p-2 rounded-xl text-slate-400 hover:text-emerald-400 hover:bg-slate-900 transition-colors"
                 title="Informativa Privacy & Note Legali"
               >
                 <ShieldCheck className="w-5 h-5" />
@@ -142,13 +142,39 @@ export default function Header({ currentView, setCurrentView }) {
               );
             })}
 
-            <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
+            {/* Privacy Modal Link in Mobile Drawer */}
+            <button
+              onClick={() => {
+                setPrivacyModalOpen(true);
+                setMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium text-slate-300 hover:bg-slate-900 hover:text-emerald-400 transition-all"
+            >
+              <ShieldCheck className="w-5 h-5 text-emerald-400" />
+              <span>{t('privacy_title')}</span>
+            </button>
+
+            {/* Official Site Link in Mobile Drawer */}
+            <a
+              href="https://www.valdiscalve.it/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium text-emerald-300 bg-emerald-950/40 border border-emerald-800/50 hover:bg-emerald-900/60 transition-all"
+            >
+              <span className="flex items-center gap-3">
+                <ExternalLink className="w-5 h-5 text-emerald-400" />
+                <span>valdiscalve.it</span>
+              </span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-emerald-800/60 text-white">Ufficiale</span>
+            </a>
+
+            <div className="pt-2 border-t border-slate-800/80">
               <button
                 onClick={() => {
                   setCurrentView('admin');
                   setMobileMenuOpen(false);
                 }}
-                className={`flex-1 flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all ${
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all ${
                   currentView === 'admin'
                     ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
                     : 'text-slate-300 hover:bg-slate-900 hover:text-amber-300'
@@ -156,14 +182,6 @@ export default function Header({ currentView, setCurrentView }) {
               >
                 <Lock className="w-5 h-5 text-amber-400" />
                 <span>{t('nav_admin')}</span>
-              </button>
-
-              <button
-                onClick={() => { setPrivacyModalOpen(true); setMobileMenuOpen(false); }}
-                className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400"
-                title="Informativa Privacy"
-              >
-                <ShieldCheck className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -218,8 +236,8 @@ export default function Header({ currentView, setCurrentView }) {
 
               <div className="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-800/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-1">
                 <div>
-                  <strong className="text-emerald-300 block font-semibold text-xs mb-0.5">🌐 Portale Turistico Ufficiale</strong>
-                  <span className="text-[11px] text-slate-400">Visita valdiscalve.it per approfondimenti istituzionali</span>
+                  <strong className="text-emerald-300 block font-semibold text-xs mb-0.5">🌐 Portale Istituzionale Ufficiale</strong>
+                  <span className="text-[11px] text-slate-400">Visita valdiscalve.it per il portale ufficiale del territorio</span>
                 </div>
                 <a
                   href="https://www.valdiscalve.it/"
