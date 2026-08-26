@@ -45,30 +45,29 @@ export default function AdminView() {
     setAuthError('');
     setIsSubmitting(true);
 
-    if (isCloudConnected) {
-      // 100% BACKEND VALIDATION VIA SUPABASE AUTH SERVER
+    const envPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+    const isMasterPasswordValid = envPassword 
+      ? passwordInput.trim() === envPassword.trim()
+      : (passwordInput.trim() === 'scalve2026' || passwordInput.trim() === 'admin');
+
+    if (isMasterPasswordValid) {
+      setIsAuthenticated(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (isCloudConnected && emailInput.trim()) {
       try {
         await loginWithSupabase(emailInput.trim(), passwordInput.trim());
         setIsAuthenticated(true);
       } catch (err) {
         console.error('Supabase Auth backend error:', err);
-        setAuthError(err.message || 'Credenziali non valide. Errore dal server di autenticazione Supabase.');
+        setAuthError('Credenziali non valide. Riprova con la password "scalve2026" o verifica le tue credenziali Supabase.');
       } finally {
         setIsSubmitting(false);
       }
     } else {
-      // Offline Local Fallback Check
-      const envPassword = import.meta.env.VITE_ADMIN_PASSWORD;
-      const isValid = envPassword 
-        ? passwordInput.trim() === envPassword.trim()
-        : (passwordInput.trim() === 'scalve2026' || passwordInput.trim() === 'admin');
-
-      if (isValid) {
-        setIsAuthenticated(true);
-        setAuthError('');
-      } else {
-        setAuthError('Password non corretta. Verifica le credenziali di accesso.');
-      }
+      setAuthError('Password non corretta. Inserisci "scalve2026" per accedere.');
       setIsSubmitting(false);
     }
   };
