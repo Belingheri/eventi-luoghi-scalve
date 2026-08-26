@@ -7,11 +7,11 @@ export const CATEGORIES = [
 ];
 
 export const MUNICIPALITIES = [
-  { id: 'all', name: { it: 'Tutti i 4 Comuni', en: 'All 4 Municipalities', de: 'Alle 4 Gemeinden', fr: 'Toutes les 4 communes', es: 'Todos los 4 municipios' } },
-  { id: 'schilpario', name: { it: 'Schilpario (con Barzesto e Pradella)', en: 'Schilpario', de: 'Schilpario', fr: 'Schilpario', es: 'Schilpario' } },
-  { id: 'vilminore', name: { it: 'Vilminore di Scalve (con Pianezza, Teveno e Pezzolo)', en: 'Vilminore di Scalve', de: 'Vilminore di Scalve', fr: 'Vilminore di Scalve', es: 'Vilminore di Scalve' } },
-  { id: 'colere', name: { it: 'Colere (con Carbonera e Dezzo)', en: 'Colere', de: 'Colere', fr: 'Colere', es: 'Colere' } },
-  { id: 'azzone', name: { it: 'Azzone (con Dosso)', en: 'Azzone', de: 'Azzone', fr: 'Azzone', es: 'Azzone' } }
+  { id: 'all', name: { it: 'Tutti i 4 Comuni', en: 'All Municipalities', de: 'Alle Gemeinden', fr: 'Toutes les communes', es: 'Todos los municipios' } },
+  { id: 'schilpario', name: { it: 'Schilpario', en: 'Schilpario', de: 'Schilpario', fr: 'Schilpario', es: 'Schilpario' } },
+  { id: 'vilminore', name: { it: 'Vilminore di Scalve', en: 'Vilminore di Scalve', de: 'Vilminore di Scalve', fr: 'Vilminore di Scalve', es: 'Vilminore di Scalve' } },
+  { id: 'colere', name: { it: 'Colere', en: 'Colere', de: 'Colere', fr: 'Colere', es: 'Colere' } },
+  { id: 'azzone', name: { it: 'Azzone', en: 'Azzone', de: 'Azzone', fr: 'Azzone', es: 'Azzone' } }
 ];
 
 export const INITIAL_PLACES = [

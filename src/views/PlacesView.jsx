@@ -78,7 +78,7 @@ export default function PlacesView({ initialMunicipality = 'all' }) {
             <Filter className="w-3.5 h-3.5 text-emerald-400" />
             <span>{t('filter_category')}</span>
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <div className="flex items-center gap-2 custom-horizontal-scroll">
             {CATEGORIES.map(cat => {
               const label = getLocalized(cat, 'label');
               const isActive = selectedCategory === cat.id;
@@ -105,7 +105,7 @@ export default function PlacesView({ initialMunicipality = 'all' }) {
             <MapPin className="w-3.5 h-3.5 text-emerald-400" />
             <span>{t('filter_municipality')}</span>
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex items-center gap-2 custom-horizontal-scroll">
             {MUNICIPALITIES.map(muni => {
               const name = getLocalized(muni, 'name');
               const isActive = selectedMunicipality === muni.id;

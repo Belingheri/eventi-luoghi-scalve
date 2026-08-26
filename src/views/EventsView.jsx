@@ -92,7 +92,7 @@ export default function EventsView() {
             <MapPin className="w-3.5 h-3.5 text-emerald-400" />
             <span>{t('filter_municipality')}</span>
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex items-center gap-2 custom-horizontal-scroll">
             {MUNICIPALITIES.map(muni => {
               const name = getLocalized(muni, 'name');
               const isActive = selectedMunicipality === muni.id;
