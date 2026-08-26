@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { CATEGORIES, MUNICIPALITIES } from '../data/initialData';
-import { X, MapPin, Navigation, Star, Info, Globe2, Compass } from 'lucide-react';
+import { X, MapPin, Navigation, Star, Info, Globe2, Compass, ExternalLink } from 'lucide-react';
 
 export default function PlaceDetailModal({ place, onClose }) {
   const { getLocalized, isFallbackUsed, t } = useLanguage();
@@ -19,6 +19,7 @@ export default function PlaceDetailModal({ place, onClose }) {
   const title = getLocalized(place, 'title');
   const description = getLocalized(place, 'description');
   const practicalInfo = getLocalized(place, 'practicalInfo');
+  const externalLinkLabel = getLocalized(place, 'externalLinkLabel') || 'Visita Sito / Info';
   const fallbackUsed = isFallbackUsed(place, 'title') || isFallbackUsed(place, 'description');
 
   const categoryObj = CATEGORIES.find(c => c.id === place.category);
@@ -131,7 +132,7 @@ export default function PlaceDetailModal({ place, onClose }) {
         </div>
 
         {/* Modal Footer Actions */}
-        <div className="p-4 sm:p-6 bg-slate-950/90 border-t border-slate-800 flex items-center justify-between gap-4">
+        <div className="p-4 sm:p-6 bg-slate-950/90 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <button
             onClick={onClose}
             className="py-2.5 px-5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition-colors"
@@ -139,13 +140,27 @@ export default function PlaceDetailModal({ place, onClose }) {
             Chiudi
           </button>
 
-          <button
-            onClick={handleOpenMap}
-            className="py-2.5 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-900/30 transition-all touch-target"
-          >
-            <Navigation className="w-4 h-4" />
-            <span>{t('btn_map_directions')}</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            {place.externalLinkUrl && (
+              <a
+                href={place.externalLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-2.5 px-5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-sm flex items-center gap-2 shadow-lg transition-all touch-target"
+              >
+                <ExternalLink className="w-4 h-4" />
+                <span>{externalLinkLabel}</span>
+              </a>
+            )}
+
+            <button
+              onClick={handleOpenMap}
+              className="py-2.5 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-900/30 transition-all touch-target"
+            >
+              <Navigation className="w-4 h-4" />
+              <span>{t('btn_map_directions')}</span>
+            </button>
+          </div>
         </div>
 
       </div>

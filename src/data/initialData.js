@@ -53,6 +53,14 @@ export const INITIAL_PLACES = [
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
     coordinates: '46.0125, 10.1583',
     mapUrl: 'https://www.google.com/maps/dir/?api=1&destination=46.0125,10.1583',
+    externalLinkUrl: 'https://www.miniereschilpario.it',
+    externalLinkLabel: {
+      it: 'Sito Ufficiale Miniere',
+      en: 'Official Mining Site',
+      de: 'Offizielle Bergbau-Website',
+      fr: 'Site Officiel de la Mine',
+      es: 'Sitio Web Oficial'
+    },
     rating: 4.8,
     featured: true,
     title: {
@@ -266,6 +274,14 @@ export const INITIAL_EVENTS = [
     municipality: 'vilminore',
     image: 'https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?auto=format&fit=crop&w=1200&q=80',
     organizer: 'G.S. Scalve Running',
+    externalLinkUrl: 'https://www.scalverunning.it',
+    externalLinkLabel: {
+      it: 'Iscrizioni & Regolamento',
+      en: 'Registration & Rules',
+      de: 'Anmeldung & Reglement',
+      fr: 'Inscriptions & Règlement',
+      es: 'Inscripciones y Reglamento'
+    },
     title: {
       it: 'Gleno Trail & Walk 2026',
       en: 'Gleno Mountain Trail 2026',

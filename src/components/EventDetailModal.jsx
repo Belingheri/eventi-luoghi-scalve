@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MUNICIPALITIES } from '../data/initialData';
-import { X, Calendar, Clock, MapPin, UserCheck, Globe2, Share2 } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, UserCheck, Globe2, Share2, ExternalLink } from 'lucide-react';
 
 export default function EventDetailModal({ event, onClose, isPast }) {
   const { getLocalized, isFallbackUsed, t, lang } = useLanguage();
@@ -18,6 +18,7 @@ export default function EventDetailModal({ event, onClose, isPast }) {
 
   const title = getLocalized(event, 'title');
   const description = getLocalized(event, 'description');
+  const externalLinkLabel = getLocalized(event, 'externalLinkLabel') || 'Info & Prenotazioni';
   const fallbackUsed = isFallbackUsed(event, 'title') || isFallbackUsed(event, 'description');
 
   const municipalityObj = MUNICIPALITIES.find(m => m.id === event.municipality);
@@ -140,7 +141,7 @@ export default function EventDetailModal({ event, onClose, isPast }) {
         </div>
 
         {/* Actions */}
-        <div className="p-4 sm:p-6 bg-slate-950/90 border-t border-slate-800 flex items-center justify-between gap-4">
+        <div className="p-4 sm:p-6 bg-slate-950/90 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
           <button
             onClick={onClose}
             className="py-2.5 px-5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition-colors"
@@ -148,15 +149,29 @@ export default function EventDetailModal({ event, onClose, isPast }) {
             Chiudi
           </button>
 
-          {!isPast && (
-            <button
-              onClick={handleAddToCalendar}
-              className="py-2.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-900/30 transition-all touch-target"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>Aggiungi a Google Calendar</span>
-            </button>
-          )}
+          <div className="flex flex-wrap items-center gap-3">
+            {event.externalLinkUrl && (
+              <a
+                href={event.externalLinkUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-2.5 px-5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-sm flex items-center gap-2 shadow-lg transition-all touch-target"
+              >
+                <ExternalLink className="w-4 h-4" />
+                <span>{externalLinkLabel}</span>
+              </a>
+            )}
+
+            {!isPast && (
+              <button
+                onClick={handleAddToCalendar}
+                className="py-2.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-900/30 transition-all touch-target"
+              >
+                <Calendar className="w-4 h-4" />
+                <span>Aggiungi a Google Calendar</span>
+              </button>
+            )}
+          </div>
         </div>
 
       </div>

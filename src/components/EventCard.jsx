@@ -1,13 +1,14 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MUNICIPALITIES } from '../data/initialData';
-import { Calendar, Clock, MapPin, Info, Globe2, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, MapPin, Info, Globe2, AlertCircle, ExternalLink } from 'lucide-react';
 
 export default function EventCard({ event, onSelect, isPast }) {
   const { getLocalized, isFallbackUsed, t, lang } = useLanguage();
 
   const title = getLocalized(event, 'title');
   const description = getLocalized(event, 'description');
+  const externalLinkLabel = getLocalized(event, 'externalLinkLabel') || 'Info';
   const fallbackUsed = isFallbackUsed(event, 'title');
 
   const municipalityObj = MUNICIPALITIES.find(m => m.id === event.municipality);
@@ -17,6 +18,13 @@ export default function EventCard({ event, onSelect, isPast }) {
   const dateObj = new Date(event.date);
   const dayNum = dateObj.getDate() || '12';
   const monthName = dateObj.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { month: 'short' }).toUpperCase();
+
+  const handleExternalLink = (e) => {
+    e.stopPropagation();
+    if (event.externalLinkUrl) {
+      window.open(event.externalLinkUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <div 
@@ -100,18 +108,31 @@ export default function EventCard({ event, onSelect, isPast }) {
         {/* Footer info & button */}
         <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
           {event.organizer && (
-            <span className="text-[11px] text-slate-400 truncate">
+            <span className="text-[11px] text-slate-400 truncate max-w-[120px]">
               {t('organizer_label')} <strong className="text-slate-300">{event.organizer}</strong>
             </span>
           )}
 
-          <button
-            onClick={() => onSelect(event)}
-            className="ml-auto py-1.5 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-emerald-400 hover:text-white text-xs font-semibold flex items-center gap-1 transition-colors touch-target"
-          >
-            <Info className="w-3.5 h-3.5" />
-            <span>{t('btn_details')}</span>
-          </button>
+          <div className="flex items-center gap-1.5 ml-auto">
+            {event.externalLinkUrl && (
+              <button
+                onClick={handleExternalLink}
+                className="py-1.5 px-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-slate-950 border border-amber-500/30 text-xs font-bold flex items-center gap-1 transition-all touch-target"
+                title={externalLinkLabel}
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span className="truncate max-w-[70px]">{externalLinkLabel}</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => onSelect(event)}
+              className="py-1.5 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-emerald-400 hover:text-white text-xs font-semibold flex items-center gap-1 transition-colors touch-target"
+            >
+              <Info className="w-3.5 h-3.5" />
+              <span>{t('btn_details')}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

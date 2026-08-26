@@ -53,6 +53,8 @@ export default function AdminView() {
     image: '',
     coordinates: '',
     mapUrl: '',
+    externalLinkUrl: '',
+    externalLinkLabel: { it: '', en: '', de: '', fr: '', es: '' },
     rating: 4.8,
     featured: false,
     title: { it: '', en: '', de: '', fr: '', es: '' },
@@ -68,6 +70,8 @@ export default function AdminView() {
     location: '',
     municipality: 'schilpario',
     image: '',
+    externalLinkUrl: '',
+    externalLinkLabel: { it: '', en: '', de: '', fr: '', es: '' },
     organizer: 'Pro Loco',
     title: { it: '', en: '', de: '', fr: '', es: '' },
     description: { it: '', en: '', de: '', fr: '', es: '' }
@@ -101,6 +105,8 @@ export default function AdminView() {
       image: place.image || '',
       coordinates: place.coordinates || '',
       mapUrl: place.mapUrl || '',
+      externalLinkUrl: place.externalLinkUrl || '',
+      externalLinkLabel: { ...emptyPlaceForm.externalLinkLabel, ...place.externalLinkLabel },
       rating: place.rating || 4.8,
       featured: Boolean(place.featured),
       title: { ...emptyPlaceForm.title, ...place.title },
@@ -144,6 +150,8 @@ export default function AdminView() {
       location: event.location || '',
       municipality: event.municipality || 'schilpario',
       image: event.image || '',
+      externalLinkUrl: event.externalLinkUrl || '',
+      externalLinkLabel: { ...emptyEventForm.externalLinkLabel, ...event.externalLinkLabel },
       organizer: event.organizer || '',
       title: { ...emptyEventForm.title, ...event.title },
       description: { ...emptyEventForm.description, ...event.description },
@@ -175,21 +183,25 @@ export default function AdminView() {
       const itTitle = placeForm.title.it;
       const itDesc = placeForm.description.it;
       const itInfo = placeForm.practicalInfo.it;
+      const itBtn = placeForm.externalLinkLabel?.it;
 
       setPlaceForm(prev => ({
         ...prev,
         title: { it: itTitle, en: prev.title.en || itTitle, de: prev.title.de || itTitle, fr: prev.title.fr || itTitle, es: prev.title.es || itTitle },
         description: { it: itDesc, en: prev.description.en || itDesc, de: prev.description.de || itDesc, fr: prev.description.fr || itDesc, es: prev.description.es || itDesc },
         practicalInfo: { it: itInfo, en: prev.practicalInfo.en || itInfo, de: prev.practicalInfo.de || itInfo, fr: prev.practicalInfo.fr || itInfo, es: prev.practicalInfo.es || itInfo },
+        externalLinkLabel: { it: itBtn, en: prev.externalLinkLabel?.en || itBtn, de: prev.externalLinkLabel?.de || itBtn, fr: prev.externalLinkLabel?.fr || itBtn, es: prev.externalLinkLabel?.es || itBtn },
       }));
     } else {
       const itTitle = eventForm.title.it;
       const itDesc = eventForm.description.it;
+      const itBtn = eventForm.externalLinkLabel?.it;
 
       setEventForm(prev => ({
         ...prev,
         title: { it: itTitle, en: prev.title.en || itTitle, de: prev.title.de || itTitle, fr: prev.title.fr || itTitle, es: prev.title.es || itTitle },
         description: { it: itDesc, en: prev.description.en || itDesc, de: prev.description.de || itDesc, fr: prev.description.fr || itDesc, es: prev.description.es || itDesc },
+        externalLinkLabel: { it: itBtn, en: prev.externalLinkLabel?.en || itBtn, de: prev.externalLinkLabel?.de || itBtn, fr: prev.externalLinkLabel?.fr || itBtn, es: prev.externalLinkLabel?.es || itBtn },
       }));
     }
   };
@@ -528,6 +540,19 @@ export default function AdminView() {
                     className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
                   />
                 </div>
+                <div className="sm:col-span-2 border-t border-slate-800/80 pt-3">
+                  <label className="block text-xs font-bold uppercase text-emerald-400 mb-1 flex items-center gap-1.5">
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Link Esterno Pulsante Personalizzato (Apre in nuova scheda _blank)</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={placeForm.externalLinkUrl || ''}
+                    onChange={(e) => setPlaceForm({ ...placeForm, externalLinkUrl: e.target.value })}
+                    placeholder="https://sito-ufficiale.it oppure https://prenotazioni.it"
+                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                  />
+                </div>
               </div>
 
               {/* 5-LANGUAGE TRANSLATION TABS */}
@@ -581,6 +606,22 @@ export default function AdminView() {
                         title: { ...placeForm.title, [formLang]: e.target.value }
                       })}
                       placeholder={`Es. Ruderi della Diga del Gleno (${formLang.toUpperCase()})`}
+                      className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Testo del Pulsante Esterno ({formLang.toUpperCase()})
+                    </label>
+                    <input
+                      type="text"
+                      value={placeForm.externalLinkLabel?.[formLang] || ''}
+                      onChange={(e) => setPlaceForm({
+                        ...placeForm,
+                        externalLinkLabel: { ...placeForm.externalLinkLabel, [formLang]: e.target.value }
+                      })}
+                      placeholder="Es. Sito Ufficiale / Prenota Biglietti (Opzionale, default: 'Visita Sito')"
                       className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm"
                     />
                   </div>
@@ -756,6 +797,20 @@ export default function AdminView() {
                     </div>
                   )}
                 </div>
+
+                <div className="sm:col-span-2 border-t border-slate-800/80 pt-3">
+                  <label className="block text-xs font-bold uppercase text-emerald-400 mb-1 flex items-center gap-1.5">
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Link Esterno / Prenotazione Biglietti (Apre in nuova scheda _blank)</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={eventForm.externalLinkUrl || ''}
+                    onChange={(e) => setEventForm({ ...eventForm, externalLinkUrl: e.target.value })}
+                    placeholder="https://link-iscrizione.it oppure https://biglietti.it"
+                    className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm"
+                  />
+                </div>
               </div>
 
               {/* 5-LANGUAGE TRANSLATION TABS */}
@@ -807,6 +862,22 @@ export default function AdminView() {
                         title: { ...eventForm.title, [formLang]: e.target.value }
                       })}
                       placeholder={`Es. Sagra dei Capù (${formLang.toUpperCase()})`}
+                      className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">
+                      Testo del Pulsante Esterno ({formLang.toUpperCase()})
+                    </label>
+                    <input
+                      type="text"
+                      value={eventForm.externalLinkLabel?.[formLang] || ''}
+                      onChange={(e) => setEventForm({
+                        ...eventForm,
+                        externalLinkLabel: { ...eventForm.externalLinkLabel, [formLang]: e.target.value }
+                      })}
+                      placeholder="Es. Prenota Posti / Sito Ufficiale (Opzionale, default: 'Info & Prenotazioni')"
                       className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm"
                     />
                   </div>
