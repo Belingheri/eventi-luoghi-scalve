@@ -16,7 +16,7 @@ const UI_TRANSLATIONS = {
   nav_admin: { it: 'Area Riservata', en: 'Admin Area', de: 'Admin-Bereich', fr: 'Espace Admin', es: 'Área Admin' },
   
   // Hero
-  hero_badge: { it: 'Portale Turistico Ufficiale', en: 'Official Tourist Portal', de: 'Offizielles Touristenportal', fr: 'Portail Touristique Officiel', es: 'Portal Turístico Oficial' },
+  hero_badge: { it: 'Portale Turistico Val di Scalve', en: 'Val di Scalve Tourist Portal', de: 'Touristenportal Val di Scalve', fr: 'Portail Touristique Val di Scalve', es: 'Portal Turístico Val di Scalve' },
   hero_title_1: { it: 'Esplora la Magia della', en: 'Explore the Magic of', de: 'Entdecken Sie die Magie von', fr: 'Explorez la Magie de la', es: 'Explora la Magia de la' },
   hero_title_2: { it: 'Val di Scalve', en: 'Scalve Valley', de: 'Scalvetal', fr: 'Val di Scalve', es: 'Valle di Scalve' },
   hero_subtitle: { it: 'Un paradiso alpino di natura incontaminata, storia mineraria e tradizioni nel cuore delle Alpi Orobiche.', en: 'An alpine paradise of pristine nature, mining history and rich traditions in the Orobie Alps.', de: 'Ein Alpenparadies unberührter Natur, Bergbaugeschichte und Traditionen in den Bergamasker Alpen.', fr: 'Un paradis alpin de nature préservée, d\'histoire minière et de traditions au cœur des Alpes Orobies.', es: 'Un paraíso alpino de naturaleza virgen, historia minera y tradiciones en el corazón de los Alpes Orobies.' },
