@@ -73,7 +73,7 @@ export function DataProvider({ children }) {
     }
   }, []);
 
-  // Load Initial Data (from Supabase if configured, or LocalStorage / Seed)
+  // Load Data directly from Supabase DB (No initial dummy fallback)
   useEffect(() => {
     async function loadData() {
       setLoading(true);
@@ -82,59 +82,31 @@ export function DataProvider({ children }) {
           const { data: placesData, error: placesError } = await supabase.from('places').select('*');
           const { data: eventsData, error: eventsError } = await supabase.from('events').select('*');
           
-          if (!placesError && placesData && placesData.length > 0) {
+          if (!placesError && placesData) {
             setPlaces(placesData.map(mapDbToPlace));
           } else {
-            setPlaces(INITIAL_PLACES);
+            setPlaces([]);
           }
 
-          if (!eventsError && eventsData && eventsData.length > 0) {
+          if (!eventsError && eventsData) {
             setEvents(eventsData.map(mapDbToEvent));
           } else {
-            setEvents(INITIAL_EVENTS);
+            setEvents([]);
           }
         } catch (err) {
-          console.warn('Supabase load error, falling back to local storage', err);
-          loadFromLocalStorage();
+          console.warn('Supabase load error:', err);
+          setPlaces([]);
+          setEvents([]);
         }
       } else {
-        loadFromLocalStorage();
+        setPlaces([]);
+        setEvents([]);
       }
       setLoading(false);
     }
 
     loadData();
   }, []);
-
-  const loadFromLocalStorage = () => {
-    const savedPlaces = localStorage.getItem('scalve_places');
-    const savedEvents = localStorage.getItem('scalve_events');
-
-    if (savedPlaces) {
-      try { setPlaces(JSON.parse(savedPlaces)); } catch (e) { setPlaces(INITIAL_PLACES); }
-    } else {
-      setPlaces(INITIAL_PLACES);
-    }
-
-    if (savedEvents) {
-      try { setEvents(JSON.parse(savedEvents)); } catch (e) { setEvents(INITIAL_EVENTS); }
-    } else {
-      setEvents(INITIAL_EVENTS);
-    }
-  };
-
-  // Sync to LocalStorage whenever state changes
-  useEffect(() => {
-    if (!loading) {
-      localStorage.setItem('scalve_places', JSON.stringify(places));
-    }
-  }, [places, loading]);
-
-  useEffect(() => {
-    if (!loading) {
-      localStorage.setItem('scalve_events', JSON.stringify(events));
-    }
-  }, [events, loading]);
 
   // Auto-Archiving Logic based on current date
   const todayStr = new Date().toISOString().split('T')[0];
@@ -250,14 +222,6 @@ export function DataProvider({ children }) {
     }
   };
 
-  // Reset to initial dataset
-  const resetToInitialData = () => {
-    setPlaces(INITIAL_PLACES);
-    setEvents(INITIAL_EVENTS);
-    localStorage.removeItem('scalve_places');
-    localStorage.removeItem('scalve_events');
-  };
-
   return (
     <DataContext.Provider value={{
       places,
@@ -275,7 +239,6 @@ export function DataProvider({ children }) {
       addEvent,
       updateEvent,
       deleteEvent,
-      resetToInitialData,
       isCloudConnected: isSupabaseConfigured
     }}>
       {children}

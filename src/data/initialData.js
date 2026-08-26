@@ -22,6 +22,14 @@ export const INITIAL_PLACES = [
     image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
     coordinates: '46.0028, 10.0717',
     mapUrl: 'https://www.google.com/maps/dir/?api=1&destination=46.0028,10.0717',
+    externalLinkUrl: 'https://www.valdiscalve.it/scopri-la-valle/diga-del-gleno/',
+    externalLinkLabel: {
+      it: 'Guida Escursione Gleno',
+      en: 'Gleno Hike Guide',
+      de: 'Gleno Wanderführer',
+      fr: 'Guide Randonnée Gleno',
+      es: 'Guía Senderismo Gleno'
+    },
     rating: 4.9,
     featured: true,
     title: {
@@ -55,11 +63,11 @@ export const INITIAL_PLACES = [
     mapUrl: 'https://www.google.com/maps/dir/?api=1&destination=46.0125,10.1583',
     externalLinkUrl: 'https://www.miniereschilpario.it',
     externalLinkLabel: {
-      it: 'Sito Ufficiale Miniere',
-      en: 'Official Mining Site',
-      de: 'Offizielle Bergbau-Website',
-      fr: 'Site Officiel de la Mine',
-      es: 'Sitio Web Oficial'
+      it: 'Sito Ufficiale Parco Minerario',
+      en: 'Official Mining Park Site',
+      de: 'Offizielle Bergbaupark-Website',
+      fr: 'Site Officiel Parc Minier',
+      es: 'Sitio Oficial Parque Minero'
     },
     rating: 4.8,
     featured: true,
@@ -92,6 +100,14 @@ export const INITIAL_PLACES = [
     image: 'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=80',
     coordinates: '46.0053, 10.1342',
     mapUrl: 'https://www.google.com/maps/dir/?api=1&destination=46.0053,10.1342',
+    externalLinkUrl: 'https://www.valdiscalve.it/scopri-la-valle/cascate-del-vo/',
+    externalLinkLabel: {
+      it: 'Mappa & Percorso Cascate',
+      en: 'Waterfall Map & Trail',
+      de: 'Wasserfall-Karte & Weg',
+      fr: 'Carte & Sentier Cascades',
+      es: 'Mapa y Ruta Cascadas'
+    },
     rating: 4.7,
     featured: true,
     title: {
@@ -123,6 +139,14 @@ export const INITIAL_PLACES = [
     image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
     coordinates: '46.0333, 10.2000',
     mapUrl: 'https://www.google.com/maps/dir/?api=1&destination=46.0333,10.2000',
+    externalLinkUrl: 'https://www.rifugiovivione.it',
+    externalLinkLabel: {
+      it: 'Rifugio Passo Vivione',
+      en: 'Vivione Pass Refuge',
+      de: 'Vivione-Pass Hütte',
+      fr: 'Refuge Col du Vivione',
+      es: 'Refugio Paso Vivione'
+    },
     rating: 4.9,
     featured: false,
     title: {
@@ -144,7 +168,7 @@ export const INITIAL_PLACES = [
       en: 'Open during summer (May-October). Refuge available with panoramic restaurant and high-altitude parking.',
       de: 'Im Sommer geöffnet (Mai-Oktober). Berggasthof mit Panoramarestaurant vorhanden.',
       fr: 'Ouvert en été (Mai-Octobre). Refuge avec restaurant panoramique et parking.',
-      es: 'Abierto en verano (Mayo-Octubre). Refugio con restaurante panorámico y aparcamiento.'
+      es: 'Abierto en verano (Mayo-Octubre). Refugio con restaurante panoramico y aparcamiento.'
     }
   },
   {
@@ -154,6 +178,14 @@ export const INITIAL_PLACES = [
     image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=1200&q=80',
     coordinates: '45.9750, 10.0833',
     mapUrl: 'https://www.google.com/maps/dir/?api=1&destination=45.9750,10.0833',
+    externalLinkUrl: 'https://www.colere.it',
+    externalLinkLabel: {
+      it: 'Sito Ufficiale Colere 2200',
+      en: 'Colere 2200 Official Site',
+      de: 'Offizielle Website Colere 2200',
+      fr: 'Site Officiel Colere 2200',
+      es: 'Sitio Oficial Colere 2200'
+    },
     rating: 4.8,
     featured: false,
     title: {
@@ -185,6 +217,14 @@ export const INITIAL_PLACES = [
     image: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1200&q=80',
     coordinates: '46.0100, 10.1550',
     mapUrl: 'https://www.google.com/maps/dir/?api=1&destination=46.0100,10.1550',
+    externalLinkUrl: 'https://www.museoetnograficoschilpario.it',
+    externalLinkLabel: {
+      it: 'Info & Orari Museo',
+      en: 'Museum Hours & Info',
+      de: 'Museumszeiten & Info',
+      fr: 'Horaires & Infos Musée',
+      es: 'Horarios e Info Museo'
+    },
     rating: 4.6,
     featured: false,
     title: {
@@ -216,6 +256,14 @@ export const INITIAL_PLACES = [
     image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80',
     coordinates: '45.9667, 10.1167',
     mapUrl: 'https://www.google.com/maps/dir/?api=1&destination=45.9667,10.1167',
+    externalLinkUrl: 'https://www.ersaf.lombardia.it/it/riserva-giovetto-di-paline',
+    externalLinkLabel: {
+      it: 'Scheda ERSAF Riserva',
+      en: 'ERSAF Reserve Sheet',
+      de: 'ERSAF Schutzgebiet',
+      fr: 'Fiche Réserve ERSAF',
+      es: 'Ficha Reserva ERSAF'
+    },
     rating: 4.7,
     featured: false,
     title: {
@@ -237,7 +285,7 @@ export const INITIAL_PLACES = [
       en: 'Free access year-round. Visitor center open during summer months.',
       de: 'Ganzjährig frei zugänglich. Besucherzentrum im Sommer geöffnet.',
       fr: 'Accès libre toute l\'année. Centre des visiteurs ouvert en été.',
-      es: 'Acceso libre todo el año. Centro de visitantes abierto en verano.'
+      es: 'Acceso libre todo el año. Centro de visitantes aperto en verano.'
     }
   }
 ];
@@ -251,6 +299,14 @@ export const INITIAL_EVENTS = [
     municipality: 'schilpario',
     image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80',
     organizer: 'Pro Loco Schilpario',
+    externalLinkUrl: 'https://www.valdiscalve.it/eventi/sagra-dei-capu/',
+    externalLinkLabel: {
+      it: 'Programma Sagra dei Capù',
+      en: 'Festival Program',
+      de: 'Festprogramm',
+      fr: 'Programme de la Fête',
+      es: 'Programa de la Fiesta'
+    },
     title: {
       it: '30ª Sagra dei Capù e del Fieno',
       en: '30th Capù & Hay Festival',
@@ -276,11 +332,11 @@ export const INITIAL_EVENTS = [
     organizer: 'G.S. Scalve Running',
     externalLinkUrl: 'https://www.scalverunning.it',
     externalLinkLabel: {
-      it: 'Iscrizioni & Regolamento',
-      en: 'Registration & Rules',
-      de: 'Anmeldung & Reglement',
-      fr: 'Inscriptions & Règlement',
-      es: 'Inscripciones y Reglamento'
+      it: 'Iscrizioni Gleno Trail',
+      en: 'Gleno Trail Registration',
+      de: 'Gleno Trail Anmeldung',
+      fr: 'Inscriptions Trail Gleno',
+      es: 'Inscripciones Gleno Trail'
     },
     title: {
       it: 'Gleno Trail & Walk 2026',
@@ -305,6 +361,14 @@ export const INITIAL_EVENTS = [
     municipality: 'colere',
     image: 'https://images.unsplash.com/photo-1543589077-47d5199647ce?auto=format&fit=crop&w=1200&q=80',
     organizer: 'Pro Loco Colere',
+    externalLinkUrl: 'https://www.prolococolere.it',
+    externalLinkLabel: {
+      it: 'Programma Natalizio Colere',
+      en: 'Colere Christmas Program',
+      de: 'Weihnachtsprogramm Colere',
+      fr: 'Programme de Noël Colere',
+      es: 'Programa Navideño Colere'
+    },
     title: {
       it: 'Mercatini di Natale e Sci in Quota',
       en: 'Christmas Markets & Alpine Ski',
@@ -328,6 +392,14 @@ export const INITIAL_EVENTS = [
     municipality: 'azzone',
     image: 'https://images.unsplash.com/photo-1452195100486-9cc805987862?auto=format&fit=crop&w=1200&q=80',
     organizer: 'Comune di Azzone',
+    externalLinkUrl: 'https://www.comune.azzone.bg.it',
+    externalLinkLabel: {
+      it: 'Info Prodotto Tipico',
+      en: 'Local Product Info',
+      de: 'Lokale Produktinfo',
+      fr: 'Infos Produit Local',
+      es: 'Info Producto Local'
+    },
     title: {
       it: 'Festa della Formagella Scalvina (Edizione Primaverile)',
       en: 'Scalvina Cheese Festival (Spring Edition)',

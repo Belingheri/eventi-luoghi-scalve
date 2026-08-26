@@ -9,7 +9,7 @@ export default function AdminView() {
   const { t, LANGUAGES, getLocalized } = useLanguage();
   const { 
     places, events, addPlace, updatePlace, deletePlace, 
-    addEvent, updateEvent, deleteEvent, resetToInitialData, isCloudConnected,
+    addEvent, updateEvent, deleteEvent, isCloudConnected,
     authUser, loginWithSupabase, logoutSupabase
   } = useData();
 
