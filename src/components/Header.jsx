@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageSelector from './LanguageSelector';
-import { Mountain, MapPin, Calendar, Lock, Menu, X, Compass, ShieldCheck } from 'lucide-react';
+import { Mountain, MapPin, Calendar, Lock, Menu, X, Compass, ShieldCheck, ExternalLink } from 'lucide-react';
 
 export default function Header({ currentView, setCurrentView }) {
   const { t } = useLanguage();
@@ -21,13 +21,17 @@ export default function Header({ currentView, setCurrentView }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
-            {/* Brand Logo */}
+            {/* Official Brand Logo */}
             <div 
               onClick={() => { setCurrentView('home'); setMobileMenuOpen(false); }}
               className="flex items-center gap-3 cursor-pointer group"
             >
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-900/30 group-hover:scale-105 transition-transform duration-300">
-                <Mountain className="w-6 h-6 text-white" />
+              <div className="h-11 px-3 py-1.5 rounded-2xl bg-white/95 shadow-lg shadow-emerald-900/30 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center border border-slate-200">
+                <img 
+                  src="https://www.valdiscalve.it/wp-content/themes/foundation/library/images/svg/logo.svg" 
+                  alt="Logo Ufficiale Val di Scalve" 
+                  className="h-8 w-auto object-contain"
+                />
               </div>
               <div>
                 <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent group-hover:text-emerald-400 transition-colors">
@@ -61,8 +65,20 @@ export default function Header({ currentView, setCurrentView }) {
               })}
             </nav>
 
-            {/* Right Controls: Language Selector + Privacy + Admin Link + Mobile Menu Toggle */}
+            {/* Right Controls: Official Site Link + Language Selector + Privacy + Admin Link + Mobile Menu Toggle */}
             <div className="flex items-center gap-2 sm:gap-3">
+              {/* Direct Official Site Link */}
+              <a
+                href="https://www.valdiscalve.it/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 hover:bg-emerald-900/80 hover:text-white transition-all"
+                title="Apri il Sito Ufficiale valdiscalve.it"
+              >
+                <span>valdiscalve.it</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+
               <LanguageSelector />
 
               {/* Privacy & Legal Notice Button */}
@@ -198,6 +214,22 @@ export default function Header({ currentView, setCurrentView }) {
               <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-slate-800">
                 <strong className="text-emerald-400 block mb-1">{t('privacy_item4_title')}</strong>
                 {t('privacy_item4_desc')}
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-800/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-1">
+                <div>
+                  <strong className="text-emerald-300 block font-semibold text-xs mb-0.5">🌐 Portale Turistico Ufficiale</strong>
+                  <span className="text-[11px] text-slate-400">Visita valdiscalve.it per approfondimenti istituzionali</span>
+                </div>
+                <a
+                  href="https://www.valdiscalve.it/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors flex-shrink-0"
+                >
+                  <span>{t('official_site_btn')}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
               </div>
             </div>
 

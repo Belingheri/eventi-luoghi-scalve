@@ -86,6 +86,9 @@ const UI_TRANSLATIONS = {
   admin_confirm_delete: { it: 'Sei sicuro di voler eliminare questo elemento?', en: 'Are you sure you want to delete this item?', de: 'Sind Sie sicher, dass Sie dieses Element löschen möchten?', fr: 'Êtes-vous sûr de vouloir supprimer cet élément ?', es: '¿Estás seguro de que quieres eliminar este elemento?' },
   fallback_notice: { it: '(Visualizzato in italiano come fallback)', en: '(Displayed in Italian as fallback)', de: '(Auf Italienisch als Fallback angezeigt)', fr: '(Affiché en italien par défaut)', es: '(Mostrado en italiano como fallback)' },
 
+  // Official Website Reference
+  official_site_btn: { it: 'Sito Ufficiale valdiscalve.it', en: 'Official valdiscalve.it Site', de: 'Offizielle Website valdiscalve.it', fr: 'Site Officiel valdiscalve.it', es: 'Sitio Oficial valdiscalve.it' },
+
   // Privacy & Legal Notice Modal
   privacy_title: { it: 'Informativa Privacy & Cookie', en: 'Privacy & Cookie Notice', de: 'Datenschutz & Cookie-Hinweis', fr: 'Politique de Confidentialité & Cookies', es: 'Aviso de Privacidad y Cookies' },
   privacy_sub: { it: 'Trasparenza e Tutela dei Dati', en: 'Transparency & Data Protection', de: 'Transparenz & Datenschutz', fr: 'Transparence & Protection des Données', es: 'Transparencia y Protección de Datos' },
