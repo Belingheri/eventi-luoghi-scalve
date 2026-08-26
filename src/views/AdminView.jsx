@@ -251,18 +251,14 @@ export default function AdminView() {
 
           <div>
             <h2 className="text-2xl font-extrabold text-white">{t('admin_title')}</h2>
-            <p className="text-slate-400 text-xs mt-1">
-              {isCloudConnected 
-                ? 'Inserisci le credenziali Amministratore per la validazione LATO BACKEND (Supabase Auth)'
-                : t('admin_login_sub')}
-            </p>
+            <p className="text-slate-400 text-xs mt-1">{t('admin_login_sub')}</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4 text-left">
             {isCloudConnected && (
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
-                  Email Amministratore (Supabase Auth)
+                  Email Amministratore
                 </label>
                 <input
                   type="email"
@@ -303,13 +299,13 @@ export default function AdminView() {
               disabled={isSubmitting}
               className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-sm shadow-lg shadow-amber-900/30 transition-all touch-target disabled:opacity-50"
             >
-              {isSubmitting ? 'Verifica credenziali sul Server...' : t('admin_login_btn')}
+              {isSubmitting ? 'Verifica credenziali in corso...' : t('admin_login_btn')}
             </button>
           </form>
 
           <div className="pt-2 border-t border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
             <span className={`w-2 h-2 rounded-full ${isCloudConnected ? 'bg-emerald-400' : 'bg-blue-400'}`} />
-            <span>Validazione: <strong>{isCloudConnected ? 'Lato Backend (Server Supabase)' : 'Locale / .env'}</strong></span>
+            <span>Stato Connessione: <strong>{isCloudConnected ? 'Sincronizzazione Cloud Attiva' : 'Modalità Locale'}</strong></span>
           </div>
         </div>
       </div>
@@ -331,7 +327,7 @@ export default function AdminView() {
           
           <div className="flex items-center gap-2 text-xs text-slate-400 mt-2">
             <span className={`w-2 h-2 rounded-full ${isCloudConnected ? 'bg-emerald-400' : 'bg-blue-400'}`} />
-            <span>Autenticazione & Persistenza: <strong>{isCloudConnected ? `Backend Cloud Supabase (${authUser?.email || 'Autenticato'})` : 'LocalStorage In-Browser'}</strong></span>
+            <span>Stato: <strong>{isCloudConnected ? `Sincronizzato in Cloud (${authUser?.email || 'Admin'})` : 'Modalità Locale'}</strong></span>
           </div>
         </div>
 
