@@ -84,15 +84,45 @@ const UI_TRANSLATIONS = {
   admin_save: { it: 'Salva', en: 'Save', de: 'Speichern', fr: 'Enregistrer', es: 'Guardar' },
   admin_cancel: { it: 'Annulla', en: 'Cancel', de: 'Abbrechen', fr: 'Annuler', es: 'Cancelar' },
   admin_confirm_delete: { it: 'Sei sicuro di voler eliminare questo elemento?', en: 'Are you sure you want to delete this item?', de: 'Sind Sie sicher, dass Sie dieses Element löschen möchten?', fr: 'Êtes-vous sûr de vouloir supprimer cet élément ?', es: '¿Estás seguro de que quieres eliminar este elemento?' },
-  fallback_notice: { it: '(Visualizzato in italiano come fallback)', en: '(Displayed in Italian as fallback)', de: '(Auf Italienisch als Fallback angezeigt)', fr: '(Affiché en italien par défaut)', es: '(Mostrado en italiano como fallback)' }
+  fallback_notice: { it: '(Visualizzato in italiano come fallback)', en: '(Displayed in Italian as fallback)', de: '(Auf Italienisch als Fallback angezeigt)', fr: '(Affiché en italien par défaut)', es: '(Mostrado en italiano como fallback)' },
+
+  // Privacy & Legal Notice Modal
+  privacy_title: { it: 'Informativa Privacy & Cookie', en: 'Privacy & Cookie Notice', de: 'Datenschutz & Cookie-Hinweis', fr: 'Politique de Confidentialité & Cookies', es: 'Aviso de Privacidad y Cookies' },
+  privacy_sub: { it: 'Trasparenza e Tutela dei Dati', en: 'Transparency & Data Protection', de: 'Transparenz & Datenschutz', fr: 'Transparence & Protection des Données', es: 'Transparencia y Protección de Datos' },
+  privacy_item1_title: { it: 'ℹ️ Finalità del Portale:', en: 'ℹ️ Portal Purpose:', de: 'ℹ️ Zweck des Portals:', fr: 'ℹ️ Objectif du Portail:', es: 'ℹ️ Propósito del Portal:' },
+  privacy_item1_desc: { it: 'Questo sito ha finalità meramente informative e turistiche per la promozione del territorio e degli eventi dei Comuni della Val di Scalve.', en: 'This website is strictly for tourist information and promotion of territory and events of Scalve Valley municipalities.', de: 'Diese Website dient rein touristischen Informationszwecken zur Förderung der Region und Veranstaltungen im Scalvetal.', fr: 'Ce site est uniquement à des fins d\'information touristique pour la promotion del territorio ed eventi del Val di Scalve.', es: 'Este sitio web es meramente informativo y turístico para la promoción del territorio y eventos del Valle di Scalve.' },
+  privacy_item2_title: { it: '🍪 Zero Cookie di Profilazione:', en: '🍪 Zero Profiling Cookies:', de: '🍪 Keine Profiling-Cookies:', fr: '🍪 Zéro Cookie de Profilage:', es: '🍪 Cero Cookies de Perfilado:' },
+  privacy_item2_desc: { it: 'Questo portale non fa alcun uso di cookie di profilazione, tracciamento pubblicitario o analytics di terze parti.', en: 'This portal does not use any profiling cookies, commercial tracking or third-party analytics.', de: 'Dieses Portal verwendet keine Profiling-Cookies, Werbe-Tracking oder Analytics von Drittanbietern.', fr: 'Ce portail n\'utilise aucun cookie de profilage, traçage publicitaire ou outil d\'analyse tiers.', es: 'Este portal no utiliza cookies de perfilado, seguimiento publicitario ni analíticas de terceros.' },
+  privacy_item3_title: { it: '🔐 Archiviazione Tecnica:', en: '🔐 Technical Storage:', de: '🔐 Technische Speicherung:', fr: '🔐 Stockage Technique:', es: '🔐 Almacenamiento Técnico:' },
+  privacy_item3_desc: { it: 'L\'unico storage impiegato riguarda i token di autenticazione tecnica strettamente indispensabili per l\'accesso riservato al pannello di amministrazione (Supabase Auth).', en: 'The only storage used is essential technical session tokens for restricted administrator authentication (Supabase Auth).', de: 'Die einzige Speicherung betrifft notwendige technische Sitzungstoken für den Administratorbereich (Supabase Auth).', fr: 'Le seul stockage utilisé concerne les jetons techniques d\'authentification indispensables à l\'espace administrateur (Supabase Auth).', es: 'El único almacenamiento utilizado corresponde a tokens técnicos de autenticación para el área administrativa (Supabase Auth).' },
+  privacy_item4_title: { it: '📜 Licenza Open Source:', en: '📜 Open Source License:', de: '📜 Open-Source-Lizenz:', fr: '📜 Licence Open Source:', es: '📜 Licencia Open Source:' },
+  privacy_item4_desc: { it: 'Il codice sorgente di questo progetto è rilasciato sotto licenza GNU General Public License v3.0 (GPL-3.0) senza alcuna garanzia.', en: 'The source code of this project is released under GNU General Public License v3.0 (GPL-3.0) without warranty of any kind.', de: 'Der Quellcode dieses Projekts steht unter der GNU General Public License v3.0 (GPL-3.0) ohne jegliche Gewährleistung.', fr: 'Le code source de ce projet est publié sous licence GNU General Public License v3.0 (GPL-3.0) sans aucune garantie.', es: 'El código fuente de este proyecto se publica bajo la licencia GNU General Public License v3.0 (GPL-3.0) sin ninguna garantía.' },
+  privacy_btn_close: { it: 'Ho Compreso e Chiudi', en: 'I Understand & Close', de: 'Verstanden & Schließen', fr: 'J\'ai compris & Fermer', es: 'Entendido y Cerrar' }
+};
+
+const SUPPORTED_LANG_CODES = ['it', 'en', 'de', 'fr', 'es'];
+
+const getInitialLanguage = () => {
+  const saved = localStorage.getItem('scalve_lang');
+  if (saved && SUPPORTED_LANG_CODES.includes(saved)) {
+    return saved;
+  }
+
+  if (typeof navigator !== 'undefined') {
+    const rawLang = (navigator.language || (navigator.languages && navigator.languages[0]) || '').slice(0, 2).toLowerCase();
+    if (SUPPORTED_LANG_CODES.includes(rawLang)) {
+      return rawLang;
+    }
+  }
+
+  // Fallback ad Inglese ('en') se la lingua del browser non è supportata
+  return 'en';
 };
 
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState(() => {
-    return localStorage.getItem('scalve_lang') || 'it';
-  });
+  const [lang, setLang] = useState(getInitialLanguage);
 
   useEffect(() => {
     localStorage.setItem('scalve_lang', lang);

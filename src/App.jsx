@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { LanguageProvider } from './context/LanguageContext';
 import { DataProvider } from './context/DataContext';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import HomeView from './views/HomeView';
 import PlacesView from './views/PlacesView';
 import EventsView from './views/EventsView';
@@ -40,9 +39,6 @@ export default function App() {
               <AdminView />
             )}
           </main>
-
-          {/* Footer */}
-          <Footer setCurrentView={setCurrentView} />
 
         </div>
       </DataProvider>
