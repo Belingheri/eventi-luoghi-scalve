@@ -320,15 +320,6 @@ export default function AdminView() {
 
         <div className="flex items-center gap-3">
           <button
-            onClick={resetToInitialData}
-            className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-colors"
-            title="Ripristina dati iniziali della Val di Scalve"
-          >
-            <RefreshCw className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Ripristina Dati Iniziali</span>
-          </button>
-
-          <button
             onClick={handleLogout}
             className="px-4 py-2 rounded-xl bg-red-950/60 hover:bg-red-900 text-red-300 text-xs font-bold border border-red-800/60 flex items-center gap-1.5 transition-colors touch-target"
           >
