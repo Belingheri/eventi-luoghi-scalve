@@ -134,6 +134,6 @@ Se possiedi o vuoi acquistare un dominio (es. `valdiscalveturismo.it` su Registe
 
 ---
 
-### Summary delle Credenziali di Default del Portale
-* **Pannello Amministratore:** `/admin` (Pulsante *Area Riservata* nell'header)
-* **Password di Accesso Admin:** `scalve2026`
+### 🔑 Accesso al Pannello Amministratore (`/admin`)
+* **URL Pannello:** `/admin` (oppure cliccando sull'icona lucchetto nell'header del sito)
+* **Autenticazione:** Tramite gli utenti registrati nella sezione **Authentication -> Users** della tua Dashboard Supabase.
