@@ -81,11 +81,16 @@ export default function AdminView() {
   // Login handler
   const handleLogin = (e) => {
     e.preventDefault();
-    if (passwordInput.trim() === 'scalve2026' || passwordInput.trim() === 'admin') {
+    const envPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+    const isValid = envPassword 
+      ? passwordInput.trim() === envPassword.trim()
+      : (passwordInput.trim() === 'scalve2026' || passwordInput.trim() === 'admin');
+
+    if (isValid) {
       setIsAuthenticated(true);
       setAuthError('');
     } else {
-      setAuthError('Password non corretta. Riprova con "scalve2026"');
+      setAuthError('Password non corretta. Verifica le credenziali di accesso.');
     }
   };
 
