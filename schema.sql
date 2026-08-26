@@ -35,6 +35,12 @@ create table if not exists events (
   description jsonb
 );
 
+-- 3. AGGIORNAMENTO COLONNE (Se le tabelle esistevano già precedentemente)
+alter table places add column if not exists external_link_url text;
+alter table places add column if not exists external_link_label jsonb;
+alter table events add column if not exists external_link_url text;
+alter table events add column if not exists external_link_label jsonb;
+
 -- 3. ABILITAZIONE ROW LEVEL SECURITY (RLS)
 alter table places enable row level security;
 alter table events enable row level security;
