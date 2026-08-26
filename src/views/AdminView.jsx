@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
 import { CATEGORIES, MUNICIPALITIES } from '../data/initialData';
-import { Lock, LogOut, Plus, Edit2, Trash2, MapPin, Calendar, Globe2, Save, X, RefreshCw, CheckCircle, ShieldAlert, Copy, Upload, Image as ImageIcon } from 'lucide-react';
+import { Lock, LogOut, Plus, Edit2, Trash2, MapPin, Calendar, Globe2, Save, X, RefreshCw, CheckCircle, ShieldAlert, Copy, Upload, Image as ImageIcon, ExternalLink } from 'lucide-react';
 
 export default function AdminView() {
   const { t, LANGUAGES, getLocalized } = useLanguage();
@@ -39,35 +39,25 @@ export default function AdminView() {
   // Check backend session state
   const isUserLoggedIn = Boolean(authUser || isAuthenticated);
 
-  // Login handler
+  // Login handler - 100% Backend Validation via Supabase Auth
   const handleLogin = async (e) => {
     e.preventDefault();
     setAuthError('');
     setIsSubmitting(true);
 
-    const envPassword = import.meta.env.VITE_ADMIN_PASSWORD;
-    const isMasterPasswordValid = envPassword 
-      ? passwordInput.trim() === envPassword.trim()
-      : (passwordInput.trim() === 'scalve2026' || passwordInput.trim() === 'admin');
-
-    if (isMasterPasswordValid) {
-      setIsAuthenticated(true);
+    if (!emailInput.trim() || !passwordInput.trim()) {
+      setAuthError('Inserisci sia l\'Email che la Password dell\'Amministratore.');
       setIsSubmitting(false);
       return;
     }
 
-    if (isCloudConnected && emailInput.trim()) {
-      try {
-        await loginWithSupabase(emailInput.trim(), passwordInput.trim());
-        setIsAuthenticated(true);
-      } catch (err) {
-        console.error('Supabase Auth backend error:', err);
-        setAuthError('Credenziali non valide. Riprova con la password "scalve2026" o verifica le tue credenziali Supabase.');
-      } finally {
-        setIsSubmitting(false);
-      }
-    } else {
-      setAuthError('Password non corretta. Inserisci "scalve2026" per accedere.');
+    try {
+      await loginWithSupabase(emailInput.trim(), passwordInput.trim());
+      setIsAuthenticated(true);
+    } catch (err) {
+      console.error('Supabase Auth backend error:', err);
+      setAuthError(err.message || 'Credenziali non valide. Verifica email e password.');
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -254,22 +244,20 @@ export default function AdminView() {
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4 text-left">
-            {isCloudConnected && (
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
-                  Email Amministratore
-                </label>
-                <input
-                  type="email"
-                  value={emailInput}
-                  onChange={(e) => setEmailInput(e.target.value)}
-                  placeholder="admin@valdiscalve.it"
-                  className="w-full px-4 py-3 rounded-2xl bg-slate-900 text-white border border-slate-700 focus:outline-none focus:border-amber-400 text-sm"
-                  required
-                  autoFocus
-                />
-              </div>
-            )}
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                Email Amministratore
+              </label>
+              <input
+                type="email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                placeholder="admin@valdiscalve.it"
+                className="w-full px-4 py-3 rounded-2xl bg-slate-900 text-white border border-slate-700 focus:outline-none focus:border-amber-400 text-sm"
+                required
+                autoFocus
+              />
+            </div>
 
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
@@ -282,7 +270,6 @@ export default function AdminView() {
                 placeholder="Password di accesso"
                 className="w-full px-4 py-3 rounded-2xl bg-slate-900 text-white border border-slate-700 focus:outline-none focus:border-amber-400 text-sm"
                 required
-                autoFocus={!isCloudConnected}
               />
             </div>
 
