@@ -4,6 +4,51 @@ import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 const DataContext = createContext();
 
+// Helper converters between JS (camelCase) and DB (snake_case)
+const mapPlaceToDb = (p) => ({
+  id: p.id,
+  category: p.category,
+  municipality: p.municipality,
+  image: p.image || null,
+  coordinates: p.coordinates || null,
+  map_url: p.mapUrl || p.map_url || null,
+  external_link_url: p.externalLinkUrl || p.external_link_url || null,
+  external_link_label: p.externalLinkLabel || p.external_link_label || null,
+  rating: p.rating || 4.8,
+  featured: Boolean(p.featured),
+  title: p.title,
+  description: p.description,
+  practical_info: p.practicalInfo || p.practical_info || null
+});
+
+const mapDbToPlace = (p) => ({
+  ...p,
+  mapUrl: p.mapUrl || p.map_url || '',
+  externalLinkUrl: p.externalLinkUrl || p.external_link_url || '',
+  externalLinkLabel: p.externalLinkLabel || p.external_link_label || null,
+  practicalInfo: p.practicalInfo || p.practical_info || null
+});
+
+const mapEventToDb = (e) => ({
+  id: e.id,
+  date: e.date,
+  time: e.time || null,
+  location: e.location || null,
+  municipality: e.municipality,
+  image: e.image || null,
+  external_link_url: e.externalLinkUrl || e.external_link_url || null,
+  external_link_label: e.externalLinkLabel || e.external_link_label || null,
+  organizer: e.organizer || null,
+  title: e.title,
+  description: e.description
+});
+
+const mapDbToEvent = (e) => ({
+  ...e,
+  externalLinkUrl: e.externalLinkUrl || e.external_link_url || '',
+  externalLinkLabel: e.externalLinkLabel || e.external_link_label || null
+});
+
 export function DataProvider({ children }) {
   const [places, setPlaces] = useState([]);
   const [events, setEvents] = useState([]);
@@ -38,13 +83,13 @@ export function DataProvider({ children }) {
           const { data: eventsData, error: eventsError } = await supabase.from('events').select('*');
           
           if (!placesError && placesData && placesData.length > 0) {
-            setPlaces(placesData);
+            setPlaces(placesData.map(mapDbToPlace));
           } else {
             setPlaces(INITIAL_PLACES);
           }
 
           if (!eventsError && eventsData && eventsData.length > 0) {
-            setEvents(eventsData);
+            setEvents(eventsData.map(mapDbToEvent));
           } else {
             setEvents(INITIAL_EVENTS);
           }
@@ -129,15 +174,26 @@ export function DataProvider({ children }) {
     setPlaces(prev => [item, ...prev]);
 
     if (isSupabaseConfigured && supabase) {
-      await supabase.from('places').insert([item]);
+      const dbRecord = mapPlaceToDb(item);
+      const { error } = await supabase.from('places').insert([dbRecord]);
+      if (error) {
+        console.error('Errore inserimento Luogo su Supabase:', error);
+        alert(`Errore salvataggio Luogo su Supabase Cloud: ${error.message}`);
+      }
     }
   };
 
   const updatePlace = async (id, updatedPlace) => {
-    setPlaces(prev => prev.map(p => p.id === id ? { ...updatedPlace, id } : p));
+    const item = { ...updatedPlace, id };
+    setPlaces(prev => prev.map(p => p.id === id ? item : p));
 
     if (isSupabaseConfigured && supabase) {
-      await supabase.from('places').update(updatedPlace).eq('id', id);
+      const dbRecord = mapPlaceToDb(item);
+      const { error } = await supabase.from('places').update(dbRecord).eq('id', id);
+      if (error) {
+        console.error('Errore aggiornamento Luogo su Supabase:', error);
+        alert(`Errore aggiornamento Luogo su Supabase Cloud: ${error.message}`);
+      }
     }
   };
 
@@ -145,7 +201,11 @@ export function DataProvider({ children }) {
     setPlaces(prev => prev.filter(p => p.id !== id));
 
     if (isSupabaseConfigured && supabase) {
-      await supabase.from('places').delete().eq('id', id);
+      const { error } = await supabase.from('places').delete().eq('id', id);
+      if (error) {
+        console.error('Errore eliminazione Luogo su Supabase:', error);
+        alert(`Errore eliminazione Luogo su Supabase Cloud: ${error.message}`);
+      }
     }
   };
 
@@ -155,15 +215,26 @@ export function DataProvider({ children }) {
     setEvents(prev => [item, ...prev]);
 
     if (isSupabaseConfigured && supabase) {
-      await supabase.from('events').insert([item]);
+      const dbRecord = mapEventToDb(item);
+      const { error } = await supabase.from('events').insert([dbRecord]);
+      if (error) {
+        console.error('Errore inserimento Evento su Supabase:', error);
+        alert(`Errore salvataggio Evento su Supabase Cloud: ${error.message}`);
+      }
     }
   };
 
   const updateEvent = async (id, updatedEvent) => {
-    setEvents(prev => prev.map(e => e.id === id ? { ...updatedEvent, id } : e));
+    const item = { ...updatedEvent, id };
+    setEvents(prev => prev.map(e => e.id === id ? item : e));
 
     if (isSupabaseConfigured && supabase) {
-      await supabase.from('events').update(updatedEvent).eq('id', id);
+      const dbRecord = mapEventToDb(item);
+      const { error } = await supabase.from('events').update(dbRecord).eq('id', id);
+      if (error) {
+        console.error('Errore aggiornamento Evento su Supabase:', error);
+        alert(`Errore aggiornamento Evento su Supabase Cloud: ${error.message}`);
+      }
     }
   };
 
@@ -171,7 +242,11 @@ export function DataProvider({ children }) {
     setEvents(prev => prev.filter(e => e.id !== id));
 
     if (isSupabaseConfigured && supabase) {
-      await supabase.from('events').delete().eq('id', id);
+      const { error } = await supabase.from('events').delete().eq('id', id);
+      if (error) {
+        console.error('Errore eliminazione Evento su Supabase:', error);
+        alert(`Errore eliminazione Evento su Supabase Cloud: ${error.message}`);
+      }
     }
   };
 
